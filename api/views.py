@@ -23,8 +23,8 @@ class AutorViewSet(viewsets.ModelViewSet):
 
 
 @login_required
-def calificar(request):
+def calificar(request, pk):
     if request.method == 'POST':
-        request.user.ratings.create(libro=Libro.objects.get(pk=pk))
-        return redirect('')
+        request.user.ratings.create(libro=Libro.objects.get(pk=pk), rating=request.POST["rating"])
+        return redirect('profile')
     return HttpResponse(status=405)  # HTTP Not Allowed

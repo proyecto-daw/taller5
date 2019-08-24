@@ -4,7 +4,7 @@ from django.db import models
 
 # Create your models here.
 class User(AbstractUser):
-    birthdate = models.DateField()
+    birthdate = models.DateField(null=True, blank=True)
 
 
 class Libro(models.Model):
@@ -15,6 +15,7 @@ class Libro(models.Model):
 class Autor(models.Model):
     nombre = models.CharField(max_length=100)
     libros = models.ManyToManyField(Libro, related_name="authors", blank=True)
+
 
 
 class Rating(models.Model):

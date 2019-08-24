@@ -31,5 +31,6 @@ urlpatterns = [
     path('books/<int:pk>', core_views.book_detail, name="book_detail"),
     path('authors', core_views.list_authors, name="list_authors"),
     path('authors/<int:pk>', core_views.author_detail, name="author_detail"),
-    path('profile', core_views.user_profile, name="profile")
+    path('profile', core_views.user_profile, name="profile"),
+    path('books/<int:pk>/calificar', calificar, name="calificar")
 ]

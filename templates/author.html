@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ autor.nombre }}</h1>
+    {% for calif, b in books %}
+        <div>
+            <a href="{% url "book_detail" pk=b.pk %}">{{ b.titulo }}</a>
+            <small class="text-muted">{{ calif }}/5.0</small>
+        </div>
+    {% endfor %}
+{% endblock %}

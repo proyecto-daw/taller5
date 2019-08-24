@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Perfil de {{ user.username }}</h1>
+
+    <h3>Libros calificados</h3>
+    <ul>
+        {% for r in ratings.all %}
+            <li><a href="{% url "book_detail" pk=r.libro.pk %}">{{ r.libro.titulo }}</a>: {{ r.rating }}/5</li>
+        {% empty %}
+            {{ user.username }} no ha calificado ningún libro
+        {% endfor %}
+    </ul>
+{% endblock %}

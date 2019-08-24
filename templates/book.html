@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div id="app">
+        <h1>[[ libro.titulo ]] <small class="text-muted">[[ calif ]]/5.0</small></h1>
+
+        <ul>
+            <li v-for="autor in libro.authors"><a :href="'/authors/' + autor.pk">[[ autor.nombre ]]</a></li>
+        </ul>
+
+
+        {% if calificable %}
+            <form method="post" action="{% url "calificar" pk=pk %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="rating">Rating</label>
+                    <input type="number" class="form-control" id="rating" name="rating" value="3" min="0" max="5">
+                </div>
+                <button type="submit" class="btn btn-primary">Calificar</button>
+            </form>
+        {% endif %}
+    </div>
+
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        var app = new Vue({
+            delimiters: ['[[', ']]'],
+            el: '#app',
+            data: {
+                libro: null,
+                calif: {{ calif_hist }}
+            },
+
+            mounted: function () {
+                _query("/api/books/" + {{ pk }});
+            },
+
+        });
+
+        function _query(url) {
+            $.ajax({
+                url: url,
+                method: "GET",
+                success: function (data, status) {
+                    console.log(data);
+                    app.libro = data;
+                }
+            });
+        }
+    </script>
+{% endblock %}

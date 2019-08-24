@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div id="app" class="pb-5">
+        <h1>Lista de autores</h1>
+        <div v-for="autor in autores">
+            <a :href="'authors/' + autor.pk">[[ autor.nombre ]]</a>
+        </div>
+        <br>
+        <a v-if="prevPage" href="#" class="btn btn-primary" v-on:click="toPrev">< Anterior</a>
+        <a v-if="nextPage" href="#" class="btn btn-primary" v-on:click="toNext">Siguiente ></a>
+    </div>
+
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        var app = new Vue({
+            delimiters: ['[[', ']]'],
+            el: '#app',
+            data: {
+                autores: [],
+                nextPage: "",
+                prevPage: ""
+            },
+
+            mounted: function () {
+                _query("api/authors");
+            },
+            methods: {
+                toNext: function () {
+                    _query(app.nextPage);
+                },
+                toPrev: function () {
+                    _query(app.prevPage);
+                }
+            }
+        });
+
+        function _query(url) {
+            $.ajax({
+                url: url,
+                method: "GET",
+                success: function (data, status) {
+                    console.log(data);
+                    app.autores = data.results;
+                    app.nextPage = data.next;
+                    app.prevPage = data.previous;
+                }
+            });
+        }
+    </script>
+{% endblock %}
